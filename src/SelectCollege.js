@@ -1,26 +1,81 @@
 // src/SelectCollege.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import "./SelectCollege.css"; // Make sure you have this for styling
 
 const SelectCollege = () => {
-	const [college, setCollege] = useState("");
+	const [query, setQuery] = useState("");
+	const [colleges, setColleges] = useState([]);
+	const [selectedCollege, setSelectedCollege] = useState("");
 
-	const handleSelectChange = (event) => {
-		setCollege(event.target.value);
+	// Fetch colleges from the API when the query changes
+	useEffect(() => {
+		const fetchColleges = async () => {
+			if (query.length === 0) {
+				setColleges([]);
+				return;
+			}
+
+			try {
+				const response = await fetch(
+					`http://universities.hipolabs.com/search?name=${query}`
+				);
+				const data = await response.json();
+				setColleges(data);
+			} catch (error) {
+				console.error("Error fetching data: ", error);
+				setColleges([]);
+			}
+		};
+
+		const delayDebounceFn = setTimeout(() => {
+			fetchColleges();
+		}, 500); // Debounce the API call by 500ms
+
+		return () => clearTimeout(delayDebounceFn); // Cleanup the effect
+	}, [query]);
+
+	const handleInputChange = (e) => {
+		setQuery(e.target.value);
+	};
+
+	const handleSelectCollege = (collegeName) => {
+		setSelectedCollege(collegeName);
+		setQuery(collegeName); // Update the input field with the college name
+		setColleges([]); // Clear the suggestions
 	};
 
 	return (
-		<div>
+		<div className="college-div">
 			<h1>Select a College</h1>
-			<select value={college} onChange={handleSelectChange}>
-				<option value="">Select your college</option>
-				<option value="college1">College 1</option>
-				<option value="college2">College 2</option>
-				{/* Add more colleges here */}
-			</select>
-			<Link to={`/chatbot/${college}`}>
-				<button>Go to Chatbot</button>
-			</Link>
+			<div
+				className={`search-div ${
+					colleges.length > 0 ? "no-rounded-bottom" : ""
+				}`}
+			>
+				{" "}
+				{/* Dynamic class */}
+				<input
+					type="text"
+					value={query}
+					onChange={handleInputChange}
+					placeholder="Type to search colleges..."
+				/>
+				{colleges.length > 0 && (
+					<ul>
+						{colleges.map((college, index) => (
+							<li key={index} onClick={() => handleSelectCollege(college.name)}>
+								{college.name}
+							</li>
+						))}
+					</ul>
+				)}
+			</div>
+			{selectedCollege && (
+				<Link to={`/chatbot/${encodeURIComponent(selectedCollege)}`}>
+					<button>Go to Chatbot</button>
+				</Link>
+			)}
 		</div>
 	);
 };

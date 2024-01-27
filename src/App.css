@@ -66,3 +66,15 @@ button:hover {
 	width: 20rem;
 	height: auto;
 }
+
+.college-div {
+	display: flex;
+	flex-direction: column;
+	padding: 2rem 3rem;
+	gap: 3rem;
+}
+
+.college-div h1 {
+	margin-bottom: 0;
+	align-self: center;
+}

@@ -1,0 +1,79 @@
+/* src/SelectCollege.css */
+.search-div {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	padding: 0 1rem;
+	padding-right: 0;
+	background-color: #192734;
+	border-radius: 1.9375rem;
+	position: relative; /* Establish a containing block for absolute positioning */
+}
+
+.search-div input {
+	border: none;
+	background-color: transparent;
+	border: hsl(0, 0%, 18.82%);
+	color: var(--search-input-color);
+	font-size: 1rem;
+	font-weight: 500;
+	padding: 0.5rem;
+	flex: 1;
+	width: 100%;
+	padding: 10px;
+	margin: 10px 0;
+	box-sizing: border-box;
+}
+
+.search-div input:focus {
+	outline: none;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	background: #192734;
+	box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.2);
+	position: absolute;
+	width: 100%; /* Make the ul match the width of the search-div */
+	top: 100%; /* Align the top of the ul with the bottom of the input */
+	left: 0; /* Align the ul to the left edge of the search-div */
+	max-height: 200px;
+	overflow-y: auto;
+	z-index: 1000; /* Ensure the ul is above other content */
+	border-bottom-left-radius: 1.9375rem;
+	border-bottom-right-radius: 1.9375rem;
+}
+
+li {
+	padding: 0.75rem 1.5rem;
+	cursor: pointer;
+}
+
+li:nth-of-type(1) {
+	border-top: 1px solid #ddd;
+	padding-top: 1rem;
+}
+
+li:last-of-type {
+	padding-bottom: 1rem;
+}
+
+ul li:hover {
+	background-color: #ffffff26;
+	color: #ffffff;
+}
+
+input {
+	width: 100%;
+	padding: 10px;
+	margin: 10px 0;
+	box-sizing: border-box;
+}
+
+.search-div.no-rounded-bottom {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
