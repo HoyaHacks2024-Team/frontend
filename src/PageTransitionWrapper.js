@@ -1,19 +1,20 @@
 // src/PageTransitionWrapper.js
 import React from "react";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
-import "./PageTransitionWrapper.css"; // You will create this file for the animation styles
+import { SwitchTransition, CSSTransition } from "react-transition-group";
+import "./PageTransitionWrapper.css"; // Create this CSS file for transition styles
 
-const PageTransitionWrapper = ({ children, location }) => {
+const PageTransitionWrapper = ({ children, locationKey }) => {
 	return (
-		<TransitionGroup>
+		<SwitchTransition mode="out-in">
 			<CSSTransition
-				key={location.key}
-				timeout={10000} // Duration of the animation
+				key={locationKey}
+				timeout={300} // Duration of the animation
 				classNames="fade" // Prefix for the CSS class names
+				unmountOnExit // Unmount the component after exit
 			>
-				<section className="page-transition">{children}</section>
+				<div className="page">{children}</div>
 			</CSSTransition>
-		</TransitionGroup>
+		</SwitchTransition>
 	);
 };
 

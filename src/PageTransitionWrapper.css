@@ -1,8 +1,6 @@
 /* src/PageTransitionWrapper.css */
-.transition-wrapper {
+.page {
 	position: relative;
-	height: 100%; /* Or set to the height you need */
-	width: 100%; /* Or set to the width you need */
 }
 
 .fade-enter {
