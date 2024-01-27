@@ -1,38 +1,68 @@
-.App {
-  text-align: center;
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Poppins", sans-serif;
+	background-color: #15202b;
+	color: #fff;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.nav a {
+	display: flex;
+	padding: 0.5rem 3rem;
+	gap: 0.5rem;
+	align-items: center;
+	text-decoration: none;
+	font-size: 1.2rem;
+	font-weight: 600;
+	background-color: #0f717a;
+	color: #fff;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.nav img:hover {
+	filter: brightness(1.2);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.nav h1:hover {
+	text-shadow: 0 0 10px #fff;
 }
 
-.App-link {
-  color: #61dafb;
+.nav img {
+	width: 5rem;
+	height: auto;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button {
+	padding: 10px 20px;
+	border-radius: 8px;
+	background-color: #90caf9;
+	border: 1px solid #90caf9;
+	font-size: 16px;
+	font-weight: 900;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	color: #15202b;
+}
+
+button:hover {
+	background-color: #2196f3;
+	color: #fff;
+	border-color: #fff;
+}
+
+.welcomeDiv h1 {
+	margin-bottom: 0;
+}
+
+.welcomeDiv {
+	display: flex;
+	flex-direction: column;
+	padding: 2rem 3rem;
+	align-items: center;
+	gap: 3rem;
+}
+
+.welcomeDiv img {
+	width: 20rem;
+	height: auto;
 }
