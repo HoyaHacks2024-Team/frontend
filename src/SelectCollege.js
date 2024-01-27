@@ -11,7 +11,7 @@ const SelectCollege = () => {
 	// Fetch colleges from the API when the query changes
 	useEffect(() => {
 		const fetchColleges = async () => {
-			if (query.length === 0) {
+			if (query.length === 0 || query === selectedCollege) {
 				setColleges([]);
 				return;
 			}
@@ -33,10 +33,15 @@ const SelectCollege = () => {
 		}, 500); // Debounce the API call by 500ms
 
 		return () => clearTimeout(delayDebounceFn); // Cleanup the effect
-	}, [query]);
+	}, [query, selectedCollege]);
 
 	const handleInputChange = (e) => {
-		setQuery(e.target.value);
+		const userInput = e.target.value;
+		setQuery(userInput);
+
+		if (userInput.length === 0) {
+			setSelectedCollege(""); // Reset the selected college if input is cleared
+		}
 	};
 
 	const handleSelectCollege = (collegeName) => {
