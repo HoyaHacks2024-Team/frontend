@@ -23,7 +23,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	padding: 2rem 3rem;
-	padding-top: 0;
+	padding-top: 0.5rem;
 	justify-content: space-between;
 }
 
@@ -52,7 +52,7 @@ body {
 }
 
 .nav img {
-	width: 5rem;
+	width: 4rem;
 	height: auto;
 }
 
@@ -197,4 +197,9 @@ button:hover {
 
 .nav h1 {
 	font-size: 2rem;
+	margin: 0;
+}
+
+.bot-input input:focus {
+	outline: none;
 }
