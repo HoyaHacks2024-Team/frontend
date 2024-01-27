@@ -92,6 +92,11 @@
 	padding-bottom: 1rem;
 }
 
+.focused {
+	background-color: #ffffff26;
+	color: #ffffff;
+}
+
 .search-div ul li:hover {
 	background-color: #ffffff26;
 	color: #ffffff;

@@ -1,5 +1,5 @@
 // src/SelectCollege.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -7,10 +7,12 @@ import Uni from "./uni.png";
 import "./SelectCollege.css"; // Make sure you have this for styling
 
 const SelectCollege = () => {
+	const [focusedIndex, setFocusedIndex] = useState(-1); // New state for focused item index
 	const [query, setQuery] = useState("");
 	const [colleges, setColleges] = useState([]);
 	const [selectedCollege, setSelectedCollege] = useState("");
 	const [isValidCollege, setIsValidCollege] = useState(false); // Track if the input is a valid college
+	const suggestionsRef = useRef(null); // Add this line
 
 	// Fetch colleges from the API when the query changes
 	useEffect(() => {
@@ -53,6 +55,8 @@ const SelectCollege = () => {
 			);
 			setIsValidCollege(isMatch);
 		}
+
+		setFocusedIndex(-1); // Reset focus when input changes
 	};
 
 	const handleSelectCollege = (collegeName) => {
@@ -60,6 +64,45 @@ const SelectCollege = () => {
 		setQuery(collegeName); // Update the input field with the college name
 		setColleges([]); // Clear the suggestions
 		setIsValidCollege(true); // Set true as the college is selected from the suggestions
+	};
+
+	const handleKeyDown = (e) => {
+		if (e.key === "ArrowDown") {
+			// Move focus down in the list
+			setFocusedIndex((focusedIndex) =>
+				Math.min(focusedIndex + 1, colleges.length - 1)
+			);
+		} else if (e.key === "ArrowUp") {
+			// Move focus up in the list
+			setFocusedIndex((focusedIndex) => Math.max(focusedIndex - 1, 0));
+		} else if (
+			e.key === "Enter" &&
+			focusedIndex >= 0 &&
+			focusedIndex < colleges.length
+		) {
+			// Select the focused item
+			handleSelectCollege(colleges[focusedIndex].name);
+		}
+
+		if (focusedIndex >= 0 && focusedIndex < colleges.length) {
+			const focusedElement = suggestionsRef.current?.children[focusedIndex];
+			if (focusedElement) {
+				// Calculate the position of the focused element
+				const scrollTop = suggestionsRef.current.scrollTop;
+				const scrollBottom = scrollTop + suggestionsRef.current.clientHeight;
+				const elementTop = focusedElement.offsetTop;
+				const elementBottom = elementTop + focusedElement.clientHeight;
+
+				// Check if the focused element is outside the current view
+				if (elementTop < scrollTop || elementBottom > scrollBottom) {
+					// Scroll the list to make the focused item centered
+					focusedElement.scrollIntoView({
+						behavior: "smooth",
+						block: "center",
+					});
+				}
+			}
+		}
 	};
 
 	return (
@@ -81,6 +124,7 @@ const SelectCollege = () => {
 					type="text"
 					value={query}
 					onChange={handleInputChange}
+					onKeyDown={handleKeyDown} // Attach the event handler
 					placeholder="Type to search colleges..."
 				/>
 				<Link
@@ -98,9 +142,13 @@ const SelectCollege = () => {
 					</button>
 				</Link>
 				{colleges.length > 0 && (
-					<ul>
+					<ul ref={suggestionsRef}>
 						{colleges.map((college, index) => (
-							<li key={index} onClick={() => handleSelectCollege(college.name)}>
+							<li
+								key={index}
+								onClick={() => handleSelectCollege(college.name)}
+								className={focusedIndex === index ? "focused" : ""} // Highlight the focused item
+							>
 								{college.name}
 							</li>
 						))}
