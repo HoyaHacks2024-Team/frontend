@@ -1,12 +1,16 @@
 // src/SelectCollege.js
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
+import Uni from "./uni.png";
 import "./SelectCollege.css"; // Make sure you have this for styling
 
 const SelectCollege = () => {
 	const [query, setQuery] = useState("");
 	const [colleges, setColleges] = useState([]);
 	const [selectedCollege, setSelectedCollege] = useState("");
+	const [isValidCollege, setIsValidCollege] = useState(false); // Track if the input is a valid college
 
 	// Fetch colleges from the API when the query changes
 	useEffect(() => {
@@ -41,6 +45,13 @@ const SelectCollege = () => {
 
 		if (userInput.length === 0) {
 			setSelectedCollege(""); // Reset the selected college if input is cleared
+			setIsValidCollege(false);
+		} else {
+			// Check if the current input matches any fetched college names
+			const isMatch = colleges.some(
+				(college) => college.name.toLowerCase() === userInput.toLowerCase()
+			);
+			setIsValidCollege(isMatch);
 		}
 	};
 
@@ -48,10 +59,12 @@ const SelectCollege = () => {
 		setSelectedCollege(collegeName);
 		setQuery(collegeName); // Update the input field with the college name
 		setColleges([]); // Clear the suggestions
+		setIsValidCollege(true); // Set true as the college is selected from the suggestions
 	};
 
 	return (
 		<div className="college-div">
+			<div className="college-title"></div>
 			<h1>Select a College</h1>
 			<div
 				className={`search-div ${
@@ -66,6 +79,20 @@ const SelectCollege = () => {
 					onChange={handleInputChange}
 					placeholder="Type to search colleges..."
 				/>
+				<Link
+					to={
+						isValidCollege
+							? `/chatbot/${encodeURIComponent(selectedCollege)}`
+							: "#"
+					}
+				>
+					<button
+						className={`button ${isValidCollege ? "active" : ""}`}
+						disabled={!isValidCollege}
+					>
+						Go to Chatbot
+					</button>
+				</Link>
 				{colleges.length > 0 && (
 					<ul>
 						{colleges.map((college, index) => (
@@ -76,11 +103,6 @@ const SelectCollege = () => {
 					</ul>
 				)}
 			</div>
-			{selectedCollege && (
-				<Link to={`/chatbot/${encodeURIComponent(selectedCollege)}`}>
-					<button>Go to Chatbot</button>
-				</Link>
-			)}
 		</div>
 	);
 };
