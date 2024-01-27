@@ -78,3 +78,31 @@ button:hover {
 	margin-bottom: 0;
 	align-self: center;
 }
+
+.college-div .college-title {
+	align-self: center;
+	display: flex;
+	align-items: center;
+	gap: 3rem;
+}
+
+.college-title img {
+	width: 4rem;
+	height: auto;
+}
+
+.info-text ul {
+	list-style-type: none; /* Removes default bullets */
+	padding: 0;
+	margin: 0;
+	z-index: 999;
+}
+
+.info-text li::before {
+	content: "•"; /* Custom bullet */
+	color: #90caf9; /* Bullet color */
+	font-weight: bold; /* Make the bullet bold */
+	display: inline-block;
+	width: 1em; /* Space between bullet and text */
+	margin-left: -1em; /* Align with the parent container */
+}

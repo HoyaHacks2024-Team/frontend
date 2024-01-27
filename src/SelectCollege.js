@@ -64,8 +64,12 @@ const SelectCollege = () => {
 
 	return (
 		<div className="college-div">
-			<div className="college-title"></div>
-			<h1>Select a College</h1>
+			<div className="college-title">
+				<img src={Uni} alt="Logo" />
+
+				<h1>Select a College</h1>
+				<img src={Uni} alt="Logo" />
+			</div>
 			<div
 				className={`search-div ${
 					colleges.length > 0 ? "no-rounded-bottom" : ""
@@ -102,6 +106,19 @@ const SelectCollege = () => {
 						))}
 					</ul>
 				)}
+			</div>
+			<div className="info-text">
+				<ul>
+					<li>
+						Start by selecting or searching for a college to discover a wealth
+						of information tailored to your interests.
+					</li>
+					<li>
+						Our chatbot is ready to guide you through admissions, academic
+						programs, campus life, and more – all personalized to make your
+						college experience seamless.
+					</li>
+				</ul>
 			</div>
 		</div>
 	);
