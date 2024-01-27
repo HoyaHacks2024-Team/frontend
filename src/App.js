@@ -24,9 +24,12 @@ const App = () => {
 
 const AnimatedRoutes = () => {
 	const location = useLocation(); // Get the current location object
-
+	const currentPage = location.pathname.split("/")[1] || "home"; // Extract the first part of the path
 	return (
-		<PageTransitionWrapper locationKey={location.pathname}>
+		<PageTransitionWrapper
+			locationKey={location.pathname}
+			currentPage={currentPage}
+		>
 			<Routes location={location}>
 				<Route path="/" element={<Welcome />} />
 				<Route path="/select-college" element={<SelectCollege />} />

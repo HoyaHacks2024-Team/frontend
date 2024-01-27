@@ -1,6 +1,8 @@
 // src/Chatbot.js
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import Up from "./up.svg";
+import User from "./user.svg";
 
 const Chatbot = () => {
 	const { collegeId } = useParams();
@@ -19,16 +21,31 @@ const Chatbot = () => {
 	};
 
 	return (
-		<div>
+		<div className="bot">
 			<h1>Chatbot for {collegeId}</h1>
-			<div>
+			<div className="msg">
 				{messages.map((message, index) => (
-					<p key={index}>{message}</p>
+					<div className="user-msg" key={index}>
+						<img src={User} alt="User" />
+						<div className="user-text">
+							<p className="you">You</p>
+							<p className="subtext">{message}</p>
+						</div>
+					</div>
 				))}
 			</div>
 			<form onSubmit={handleSubmit}>
-				<input type="text" value={input} onChange={handleInputChange} />
-				<button type="submit">Send</button>
+				<div className="bot-input">
+					<input
+						type="text"
+						placeholder={`Ask me anything about ${collegeId}!`}
+						value={input}
+						onChange={handleInputChange}
+					/>
+					<button type="submit">
+						<img src={Up} alt="Send" />
+					</button>
+				</div>
 			</form>
 		</div>
 	);

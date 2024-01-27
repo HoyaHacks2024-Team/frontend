@@ -3,7 +3,7 @@ import React from "react";
 import { SwitchTransition, CSSTransition } from "react-transition-group";
 import "./PageTransitionWrapper.css"; // Create this CSS file for transition styles
 
-const PageTransitionWrapper = ({ children, locationKey }) => {
+const PageTransitionWrapper = ({ children, locationKey, currentPage }) => {
 	return (
 		<SwitchTransition mode="out-in">
 			<CSSTransition
@@ -12,7 +12,7 @@ const PageTransitionWrapper = ({ children, locationKey }) => {
 				classNames="fade" // Prefix for the CSS class names
 				unmountOnExit // Unmount the component after exit
 			>
-				<div className="page">{children}</div>
+				<div className={`page ${currentPage}-page`}>{children}</div>
 			</CSSTransition>
 		</SwitchTransition>
 	);

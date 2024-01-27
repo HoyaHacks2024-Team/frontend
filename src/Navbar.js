@@ -8,7 +8,7 @@ const Navbar = () => {
 			<div>
 				<Link to="/">
 					<img src={logo} alt="Logo" />
-					<h1>College Chatbot</h1>
+					<h1>Prospectus</h1>
 				</Link>{" "}
 			</div>
 		</div>
