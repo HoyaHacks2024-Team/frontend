@@ -43,11 +43,11 @@ body {
 	color: #fff;
 }
 
-.nav img:hover {
+.nav a:hover img {
 	filter: brightness(1.2);
 }
 
-.nav h1:hover {
+.nav a:hover h1 {
 	text-shadow: 0 0 10px #fff;
 }
 
@@ -123,7 +123,7 @@ button:not(:disabled):hover {
 }
 
 .info-text li::before {
-	content: "•"; /* Custom bullet */
+	content: ">"; /* Custom bullet */
 	color: #90caf9; /* Bullet color */
 	font-weight: bold; /* Make the bullet bold */
 	display: inline-block;
