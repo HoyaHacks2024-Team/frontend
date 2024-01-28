@@ -255,3 +255,38 @@ textarea {
 	word-break: break-word;
 	overflow-wrap: break-word;
 }
+
+/* For Webkit browsers */
+.textarea-class::-webkit-scrollbar {
+	width: 8px; /* Width of the scrollbar */
+}
+
+.textarea-class::-webkit-scrollbar-track {
+	background: #e0e0e0; /* Light grey track */
+	border-radius: 8px; /* Rounded corners */
+}
+
+.textarea-class::-webkit-scrollbar-thumb {
+	background: #5e5e5e; /* Darker grey thumb for contrast */
+	border-radius: 8px; /* Rounded corners on the scrollbar thumb */
+}
+
+.textarea-class::-webkit-scrollbar-thumb:hover {
+	background: #555; /* Even darker grey on hover for visibility */
+}
+
+/* For Firefox */
+.textarea-class {
+	scrollbar-width: thin; /* "auto" or "thin" */
+	scrollbar-color: #5e5e5e #e0e0e0; /* thumb and track color */
+}
+
+/* For Internet Explorer and Edge */
+.textarea-class {
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/* Make scrolling smooth */
+.textarea-class {
+	scroll-behavior: smooth;
+}

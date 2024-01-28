@@ -50,6 +50,7 @@ const Chatbot = () => {
 				<div className="block">
 					<div className="bot-input">
 						<textarea
+							className="textarea-class"
 							ref={textareaRef}
 							placeholder={`Ask me anything about ${collegeId}!`}
 							value={input}
