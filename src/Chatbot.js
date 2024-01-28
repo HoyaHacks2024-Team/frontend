@@ -41,8 +41,9 @@ const Chatbot = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		if (input.trim()) {
-			const newUserMessage = { text: input, sender: "user" };
+		const trimmedInput = input.trim();
+		if (trimmedInput) {
+			const newUserMessage = { text: trimmedInput, sender: "user" };
 			addBotResponse(newUserMessage);
 			setInput("");
 		}
@@ -90,7 +91,7 @@ const Chatbot = () => {
 								width: "calc(100% - 60px)", // Adjust the width depending on your button size
 							}}
 						/>
-						<button type="submit">
+						<button type="submit" disabled={!input.trim()}>
 							<img src={Up} alt="Send" />
 						</button>
 					</div>
