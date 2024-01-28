@@ -1,52 +1,22 @@
-// src/SelectCollege.js
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 import Uni from "./uni.png";
 import "./SelectCollege.css"; // Make sure you have this for styling
 
 const SelectCollege = () => {
 	const [focusedIndex, setFocusedIndex] = useState(-1); // New state for focused item index
 	const [query, setQuery] = useState("");
-	const [colleges, setColleges] = useState([]);
+	const [colleges] = useState([
+		// Static list of colleges
+		{ name: "Harvard University" },
+		{ name: "Stanford University" },
+		{ name: "Massachusetts Institute of Technology" },
+		{ name: "University of California, Berkeley" },
+	]);
 	const [selectedCollege, setSelectedCollege] = useState("");
 	const [isValidCollege, setIsValidCollege] = useState(false); // Track if the input is a valid college
+	const [showSuggestions, setShowSuggestions] = useState(false); // State to control the visibility of suggestions
 	const suggestionsRef = useRef(null); // Add this line
-
-	// Fetch colleges from the API when the query changes
-	useEffect(() => {
-		const fetchColleges = async () => {
-			if (query.length === 0 || query === selectedCollege) {
-				setColleges([]);
-				return;
-			}
-
-			const proxyUrl = "https://cors-anywhere.herokuapp.com/"; // cors-anywhere proxy URL
-			const targetUrl = `http://universities.hipolabs.com/search?name=${query}`; // Your actual API URL
-			try {
-				const response = await fetch(proxyUrl + targetUrl, {
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						// Sometimes you need to include this header in your request
-						Origin: "https://frontend-tau-hazel-32.vercel.app",
-					},
-				});
-				const data = await response.json();
-				setColleges(data);
-			} catch (error) {
-				console.error("Error fetching data: ", error);
-				setColleges([]);
-			}
-		};
-
-		const delayDebounceFn = setTimeout(() => {
-			fetchColleges();
-		}, 500); // Debounce the API call by 500ms
-
-		return () => clearTimeout(delayDebounceFn); // Cleanup the effect
-	}, [query, selectedCollege]);
 
 	const handleInputChange = (e) => {
 		const userInput = e.target.value;
@@ -55,12 +25,21 @@ const SelectCollege = () => {
 		if (userInput.length === 0) {
 			setSelectedCollege(""); // Reset the selected college if input is cleared
 			setIsValidCollege(false);
+			setShowSuggestions(false); // Hide suggestions when input is cleared
 		} else {
-			// Check if the current input matches any fetched college names
+			// Check if the current input exactly matches any college names in the static list
 			const isMatch = colleges.some(
 				(college) => college.name.toLowerCase() === userInput.toLowerCase()
 			);
 			setIsValidCollege(isMatch);
+
+			// Filter the colleges based on the query
+			const filteredColleges = colleges.filter((college) =>
+				college.name.toLowerCase().includes(userInput.toLowerCase())
+			);
+
+			// Update the suggestions list
+			setShowSuggestions(filteredColleges.length > 0 ? true : false);
 		}
 
 		setFocusedIndex(-1); // Reset focus when input changes
@@ -69,8 +48,8 @@ const SelectCollege = () => {
 	const handleSelectCollege = (collegeName) => {
 		setSelectedCollege(collegeName);
 		setQuery(collegeName); // Update the input field with the college name
-		setColleges([]); // Clear the suggestions
 		setIsValidCollege(true); // Set true as the college is selected from the suggestions
+		setShowSuggestions(false); // Hide the suggestions list when a college is selected
 	};
 
 	const handleKeyDown = (e) => {
@@ -116,17 +95,14 @@ const SelectCollege = () => {
 		<div className="college-div">
 			<div className="college-title">
 				<img src={Uni} alt="Logo" />
-
 				<h1>Select a College</h1>
 				<img src={Uni} alt="Logo" />
 			</div>
 			<div
 				className={`search-div ${
-					colleges.length > 0 ? "no-rounded-bottom" : ""
+					showSuggestions && colleges.length > 0 ? "no-rounded-bottom" : ""
 				}`}
 			>
-				{" "}
-				{/* Dynamic class */}
 				<input
 					type="text"
 					value={query}
@@ -148,13 +124,13 @@ const SelectCollege = () => {
 						Go to Chatbot
 					</button>
 				</Link>
-				{colleges.length > 0 && (
+				{showSuggestions && colleges.length > 0 && (
 					<ul ref={suggestionsRef}>
 						{colleges.map((college, index) => (
 							<li
 								key={index}
 								onClick={() => handleSelectCollege(college.name)}
-								className={focusedIndex === index ? "focused" : ""} // Highlight the focused item
+								className={focusedIndex === index ? "focused" : ""}
 							>
 								{college.name}
 							</li>
