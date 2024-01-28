@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Up from "./up.svg";
 import User from "./user.svg";
+import Comp from "./comp.svg";
 
 const Chatbot = () => {
 	const { collegeId } = useParams();
@@ -24,10 +25,25 @@ const Chatbot = () => {
 		setInput(event.target.value);
 	};
 
+	const addBotResponse = (userMessage) => {
+		// Simulate a bot response
+		const newBotMessage = {
+			text: "I'm a bot and I'm still learning. Could you repeat that?",
+			sender: "bot",
+		};
+		// Update the messages state with both the user's message and the bot's response
+		setMessages((prevMessages) => [
+			...prevMessages,
+			userMessage,
+			newBotMessage,
+		]);
+	};
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		if (input.trim()) {
-			setMessages([...messages, input]);
+			const newUserMessage = { text: input, sender: "user" };
+			addBotResponse(newUserMessage);
 			setInput("");
 		}
 	};
@@ -37,11 +53,19 @@ const Chatbot = () => {
 			<h1>Chatbot for {collegeId}</h1>
 			<div className="msg">
 				{messages.map((message, index) => (
-					<div className="user-msg" key={index}>
-						<img src={User} alt="User" />
+					<div
+						className={message.sender === "user" ? "user-msg" : "comp-msg"}
+						key={index}
+					>
+						<img
+							src={message.sender === "user" ? User : Comp}
+							alt={message.sender}
+						/>
 						<div className="user-text">
-							<p className="you">You</p>
-							<p className="subtext">{message}</p>
+							<p className={message.sender}>
+								{message.sender === "user" ? "You" : "Bot"}
+							</p>
+							<p className="subtext">{message.text}</p>
 						</div>
 					</div>
 				))}

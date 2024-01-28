@@ -227,16 +227,25 @@ textarea {
 	align-items: flex-end;
 }
 
+.comp-msg {
+	display: flex;
+	align-items: flex-start;
+	gap: 1rem;
+	box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.2);
+	padding: 0.5rem 3rem;
+}
+
 .user-msg {
 	display: flex;
 	align-items: flex-start;
 	flex-direction: row-reverse;
-	gap: 1rem;
+	gap: 2rem;
 	box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.2);
-	padding: 0rem 3rem;
+	padding: 0.5rem 3rem;
 }
 
-.you {
+p.bot,
+p.user {
 	margin: 0;
 	font-weight: 900;
 }
