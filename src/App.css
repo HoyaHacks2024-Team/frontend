@@ -290,3 +290,38 @@ textarea {
 .textarea-class {
 	scroll-behavior: smooth;
 }
+
+/* For Webkit browsers */
+::-webkit-scrollbar {
+	width: 8px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+	background: #e0e0e0; /* Light grey track */
+	border-radius: 8px; /* Rounded corners */
+}
+
+::-webkit-scrollbar-thumb {
+	background: #5e5e5e; /* Darker grey thumb for contrast */
+	border-radius: 8px; /* Rounded corners on the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #555; /* Even darker grey on hover for visibility */
+}
+
+/* For Firefox */
+html {
+	scrollbar-width: thin; /* "auto" or "thin" */
+	scrollbar-color: #5e5e5e #e0e0e0; /* thumb and track color */
+}
+
+/* For Internet Explorer and Edge */
+body {
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/* Make scrolling smooth */
+html {
+	scroll-behavior: smooth;
+}
