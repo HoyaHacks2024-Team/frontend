@@ -22,11 +22,17 @@ const SelectCollege = () => {
 				return;
 			}
 
+			const proxyUrl = "https://cors-anywhere.herokuapp.com/"; // cors-anywhere proxy URL
+			const targetUrl = `http://universities.hipolabs.com/search?name=${query}`; // Your actual API URL
 			try {
-				const response = await fetch(
-					`http://universities.hipolabs.com/search?name=${query}`,
-					{ mode: "cors" }
-				);
+				const response = await fetch(proxyUrl + targetUrl, {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						// Sometimes you need to include this header in your request
+						Origin: "https://frontend-tau-hazel-32.vercel.app",
+					},
+				});
 				const data = await response.json();
 				setColleges(data);
 			} catch (error) {
