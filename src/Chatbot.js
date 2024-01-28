@@ -35,16 +35,18 @@ const Chatbot = () => {
 				))}
 			</div>
 			<form onSubmit={handleSubmit}>
-				<div className="bot-input">
-					<input
-						type="text"
-						placeholder={`Ask me anything about ${collegeId}!`}
-						value={input}
-						onChange={handleInputChange}
-					/>
-					<button type="submit">
-						<img src={Up} alt="Send" />
-					</button>
+				<div className="block">
+					<div className="bot-input">
+						<input
+							type="text"
+							placeholder={`Ask me anything about ${collegeId}!`}
+							value={input}
+							onChange={handleInputChange}
+						/>
+						<button type="submit">
+							<img src={Up} alt="Send" />
+						</button>
+					</div>
 				</div>
 			</form>
 		</div>

@@ -131,6 +131,16 @@ button:hover {
 	margin-left: -1em; /* Align with the parent container */
 }
 
+.block {
+	flex: 1 1;
+	position: fixed;
+	bottom: 0;
+	z-index: 999;
+	background-color: #15202b;
+	left: 0;
+	right: 0;
+}
+
 .bot-input {
 	flex: 1 1;
 	display: flex;
@@ -138,7 +148,13 @@ button:hover {
 	gap: 1rem;
 	padding: 0 1rem;
 	background-color: #192734;
+	box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.2);
 	border-radius: 0.9375rem;
+	/* position: fixed;
+	bottom: 0; */
+	margin: 2rem 3rem;
+	margin-top: 0;
+	border: 1px solid rgb(117, 117, 117);
 }
 
 .bot-input input {
@@ -174,10 +190,12 @@ button:hover {
 
 .msg {
 	height: 100%;
+	overflow-y: auto;
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
 	padding: 0 3rem;
+	padding-bottom: 5rem;
 }
 
 .user-msg img {
@@ -185,14 +203,25 @@ button:hover {
 	height: auto;
 }
 
+.user-text {
+	display: flex;
+	flex-direction: column;
+	white-space: normal;
+	align-items: flex-end;
+}
+
 .user-msg {
 	display: flex;
 	align-items: flex-start;
+	flex-direction: row-reverse;
 	gap: 1rem;
+	box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.2);
+	padding: 0rem 3rem;
 }
 
 .you {
 	margin: 0;
+	font-weight: 900;
 }
 
 .nav h1 {
@@ -202,4 +231,10 @@ button:hover {
 
 .bot-input input:focus {
 	outline: none;
+}
+
+.subtext {
+	white-space: normal;
+	word-break: break-word;
+	overflow-wrap: break-word;
 }
