@@ -15,6 +15,7 @@ const SelectCollege = () => {
 	]);
 	const [selectedCollege, setSelectedCollege] = useState("");
 	const [isValidCollege, setIsValidCollege] = useState(false); // Track if the input is a valid college
+	const [filteredColleges, setFilteredColleges] = useState([]); // State for dynamically filtered colleges
 	const [showSuggestions, setShowSuggestions] = useState(false); // State to control the visibility of suggestions
 	const suggestionsRef = useRef(null); // Add this line
 
@@ -26,6 +27,7 @@ const SelectCollege = () => {
 			setSelectedCollege(""); // Reset the selected college if input is cleared
 			setIsValidCollege(false);
 			setShowSuggestions(false); // Hide suggestions when input is cleared
+			setFilteredColleges([]); // Clear the filtered colleges when input is cleared
 		} else {
 			// Check if the current input exactly matches any college names in the static list
 			const isMatch = colleges.some(
@@ -38,8 +40,9 @@ const SelectCollege = () => {
 				college.name.toLowerCase().includes(userInput.toLowerCase())
 			);
 
-			// Update the suggestions list
-			setShowSuggestions(filteredColleges.length > 0 ? true : false);
+			// Update the suggestions list and filtered colleges
+			setFilteredColleges(filteredColleges);
+			setShowSuggestions(filteredColleges.length > 0);
 		}
 
 		setFocusedIndex(-1); // Reset focus when input changes
@@ -50,13 +53,14 @@ const SelectCollege = () => {
 		setQuery(collegeName); // Update the input field with the college name
 		setIsValidCollege(true); // Set true as the college is selected from the suggestions
 		setShowSuggestions(false); // Hide the suggestions list when a college is selected
+		setFilteredColleges([]); // Clear the filtered colleges when a college is selected
 	};
 
 	const handleKeyDown = (e) => {
 		if (e.key === "ArrowDown") {
 			// Move focus down in the list
 			setFocusedIndex((focusedIndex) =>
-				Math.min(focusedIndex + 1, colleges.length - 1)
+				Math.min(focusedIndex + 1, filteredColleges.length - 1)
 			);
 		} else if (e.key === "ArrowUp") {
 			// Move focus up in the list
@@ -64,13 +68,13 @@ const SelectCollege = () => {
 		} else if (
 			e.key === "Enter" &&
 			focusedIndex >= 0 &&
-			focusedIndex < colleges.length
+			focusedIndex < filteredColleges.length
 		) {
 			// Select the focused item
-			handleSelectCollege(colleges[focusedIndex].name);
+			handleSelectCollege(filteredColleges[focusedIndex].name);
 		}
 
-		if (focusedIndex >= 0 && focusedIndex < colleges.length) {
+		if (focusedIndex >= 0 && focusedIndex < filteredColleges.length) {
 			const focusedElement = suggestionsRef.current?.children[focusedIndex];
 			if (focusedElement) {
 				// Calculate the position of the focused element
@@ -91,6 +95,14 @@ const SelectCollege = () => {
 		}
 	};
 
+	const isButtonDisabled = () => {
+		if (query.length === 0) {
+			return true; // Disable the button if the input is empty
+		} else {
+			return !isValidCollege; // Disable the button if the input doesn't match a college
+		}
+	};
+
 	return (
 		<div className="college-div">
 			<div className="college-title">
@@ -100,7 +112,9 @@ const SelectCollege = () => {
 			</div>
 			<div
 				className={`search-div ${
-					showSuggestions && colleges.length > 0 ? "no-rounded-bottom" : ""
+					showSuggestions && filteredColleges.length > 0
+						? "no-rounded-bottom"
+						: ""
 				}`}
 			>
 				<input
@@ -119,14 +133,14 @@ const SelectCollege = () => {
 				>
 					<button
 						className={`button ${isValidCollege ? "active" : ""}`}
-						disabled={!isValidCollege}
+						disabled={isButtonDisabled()} // Use the disabled function to determine button state
 					>
 						Go to Chatbot
 					</button>
 				</Link>
-				{showSuggestions && colleges.length > 0 && (
+				{showSuggestions && filteredColleges.length > 0 && (
 					<ul ref={suggestionsRef}>
-						{colleges.map((college, index) => (
+						{filteredColleges.map((college, index) => (
 							<li
 								key={index}
 								onClick={() => handleSelectCollege(college.name)}
