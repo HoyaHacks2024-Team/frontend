@@ -24,7 +24,7 @@ const SelectCollege = () => {
 
 			try {
 				const response = await fetch(
-					`https://universities.hipolabs.com/search?name=${query}`,
+					`http://universities.hipolabs.com/search?name=${query}`,
 					{ mode: "cors" }
 				);
 				const data = await response.json();
